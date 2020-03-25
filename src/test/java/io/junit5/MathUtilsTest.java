@@ -12,6 +12,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
@@ -78,8 +80,10 @@ class MathUtilsTest {
 	}
 	
 	@Test
-	void testComputeCircleRadius()
+	@RepeatedTest(3)
+	void testComputeCircleRadius(RepetitionInfo repetitioninfo)
 	{
+		repetitioninfo.getCurrentRepetition();
 		assertEquals(314.1592653589793, mathUtils.computeCircleArea(10),"should return right answers");
 	}
 	
