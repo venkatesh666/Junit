@@ -13,14 +13,18 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.RepetitionInfo;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestReporter;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @DisplayName("From MathUtils Class")
 class MathUtilsTest {
 
+	TestInfo testInfo;
+	TestReporter testReporter;
 	MathUtils mathUtils;
 	
 	@BeforeAll
@@ -28,9 +32,12 @@ class MathUtilsTest {
 		System.out.println("Excecuting Before All.....");
 	}
 	@BeforeEach
-	void init()
+	void init(TestInfo testInfo,TestReporter testReporter)
 	{
+		this.testInfo = testInfo;
+		this.testReporter = testReporter;
 	 mathUtils = new MathUtils();
+	 testReporter.publishEntry("Runnig "+ testInfo.getDisplayName()+"with Tags "+testInfo.getTags());
 	}
 	
 	@AfterEach
@@ -40,10 +47,10 @@ class MathUtilsTest {
 	
 	@Nested
 	@DisplayName("From addTest class")
+	@Tag("Math")
 	class addTest{
 	
 	@Test
-	@DisplayName("Testing add method")
 	void test() {
     assertEquals(4,mathUtils.add(2, 2),"Adding two positive numbers");
 	}
@@ -52,7 +59,7 @@ class MathUtilsTest {
 	@Test
 	@DisplayName("Testing add method")
 	void testadd() {
-		int expected= -5;
+		int expected= -4;
 		int actual = mathUtils.add(-2, -2);
      assertEquals(expected, actual, () -> "Adding two negative numbers" + expected + " result is" +actual);
 	}
@@ -60,9 +67,11 @@ class MathUtilsTest {
 	}
 	
 	@Test
+	@Tag("Math")
 	@DisplayName("multiply method")
 	void testMultiply() {
-	assertAll(
+	testReporter.publishEntry("Runnig "+ testInfo.getDisplayName()+"with Tags "+testInfo.getTags());
+		assertAll(
 	() -> assertEquals(4,mathUtils.multiply(2, 2)),
 	 () -> assertEquals(6,mathUtils.multiply(2, 3)),
 	  () ->assertEquals(8,mathUtils.multiply(4, 2)),
@@ -73,6 +82,7 @@ class MathUtilsTest {
 	
 	@Test
 	//@EnabledOnOs(OS.LINUX)
+	@Tag("Math")
 	void testDivide() {
 		boolean isServerup=false;
     assumeTrue(isServerup);
@@ -81,9 +91,11 @@ class MathUtilsTest {
 	
 	@Test
 	@RepeatedTest(3)
-	void testComputeCircleRadius(RepetitionInfo repetitioninfo)
+	@Tag("ComputeCricle")
+	//void testComputeCircleRadius(RepetitionInfo repetitioninfo)
+	void testComputeCircleRadius()
 	{
-		repetitioninfo.getCurrentRepetition();
+		//repetitioninfo.getCurrentRepetition();
 		assertEquals(314.1592653589793, mathUtils.computeCircleArea(10),"should return right answers");
 	}
 	
