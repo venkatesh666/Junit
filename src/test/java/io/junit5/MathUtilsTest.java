@@ -11,10 +11,12 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@DisplayName("From MathUtils Class")
 class MathUtilsTest {
 
 	MathUtils mathUtils;
@@ -34,15 +36,25 @@ class MathUtilsTest {
 		System.out.println("cleaning up..........");
 	}
 	
+	@Nested
+	@DisplayName("From addTest class")
+	class addTest{
 	
 	@Test
 	@DisplayName("Testing add method")
 	void test() {
-      int expected = 3;
-     int actual=  mathUtils.add(1, 2);
-      assertEquals(expected, actual,"add method");
+    assertEquals(4,mathUtils.add(2, 2),"Adding two positive numbers");
 	}
     
+	
+	@Test
+	@DisplayName("Testing add method")
+	void testadd() {
+     assertEquals(-4,mathUtils.add(-2, -2),"Adding two negative numbers");
+	}
+	
+	}
+	
 	@Test
 	@DisplayName("multiply method")
 	void testMultiply() {
@@ -60,7 +72,7 @@ class MathUtilsTest {
 	void testDivide() {
 		boolean isServerup=false;
     assumeTrue(isServerup);
-		assertThrows(ArithmeticException.class,() -> mathUtils.divide(1,0),"Divide by zero");
+		assertThrows(ArithmeticException.class,()-> mathUtils.divide(1,0),"Divide by zero");
 	}
 	
 	@Test
