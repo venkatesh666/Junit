@@ -50,7 +50,9 @@ class MathUtilsTest {
 	@Test
 	@DisplayName("Testing add method")
 	void testadd() {
-     assertEquals(-4,mathUtils.add(-2, -2),"Adding two negative numbers");
+		int expected= -5;
+		int actual = mathUtils.add(-2, -2);
+     assertEquals(expected, actual, () -> "Adding two negative numbers" + expected + " result is" +actual);
 	}
 	
 	}
